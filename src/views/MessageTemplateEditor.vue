@@ -80,7 +80,11 @@ function handleSubmit(): void {
 
       <aside class="message-template-editor__preview">
         <MessagePreviewCard :title="form.title" :content="previewContent" />
-        <PayloadPreview :payload="submittedPayload" />
+        <PayloadPreview
+          v-if="submittedPayload"
+          :payload="submittedPayload"
+          aria-live="polite"
+        />
       </aside>
     </div>
   </main>
