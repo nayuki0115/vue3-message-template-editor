@@ -1,16 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import { Button } from 'ant-design-vue'
 
 import ValidationAlert from '@/components/feedback/ValidationAlert.vue'
 import MessageContentEditor from '@/components/form/MessageContentEditor.vue'
 import TemplateBasicForm from '@/components/form/TemplateBasicForm.vue'
 import { useTemplateForm } from '@/composables/useTemplateForm'
+import { useVariablePreview } from '@/composables/useVariablePreview'
+import MessagePreviewCard from '@/components/preview/MessagePreviewCard.vue'
+import PayloadPreview from '@/components/preview/PayloadPreview.vue'
 
 import type { ValidationError } from '@/types/validation'
 
-const { form, validationErrors, handleBlur, insertVariable, submit } =
-  useTemplateForm()
+const {
+  form,
+  validationErrors,
+  submittedPayload,
+  handleBlur,
+  insertVariable,
+  submit,
+} = useTemplateForm()
+const { previewContent } = useVariablePreview(toRef(form, 'content'))
 
 const alertErrors = computed<ValidationError[]>(() => [
   ...(validationErrors.templateName ?? []),
@@ -22,38 +32,45 @@ const alertErrors = computed<ValidationError[]>(() => [
 
 <template>
   <main class="message-template-editor">
-    <section class="message-template-editor__panel">
-      <ValidationAlert :errors="alertErrors" />
+    <ValidationAlert :errors="alertErrors" />
 
-      <TemplateBasicForm
-        v-model:template-name="form.templateName"
-        v-model:channel="form.channel"
-        v-model:language="form.language"
-        v-model:title="form.title"
-        :errors="{
-          templateName: validationErrors.templateName,
-          channel: validationErrors.channel,
-        }"
-        @blur="handleBlur"
-      />
+    <div class="message-template-editor__layout">
+      <section class="message-template-editor__panel">
+        <TemplateBasicForm
+          v-model:template-name="form.templateName"
+          v-model:channel="form.channel"
+          v-model:language="form.language"
+          v-model:title="form.title"
+          :errors="{
+            templateName: validationErrors.templateName,
+            channel: validationErrors.channel,
+          }"
+          @blur="handleBlur"
+        />
 
-      <MessageContentEditor
-        v-model:content="form.content"
-        :content-errors="validationErrors.content"
-        :variable-errors="validationErrors.variables"
-        @blur="handleBlur('content')"
-        @insert-variable="
-          insertVariable($event.variableTemplate, {
-            start: $event.start,
-            end: $event.end,
-          })
-        "
-      />
+        <MessageContentEditor
+          v-model:content="form.content"
+          :content-errors="validationErrors.content"
+          :variable-errors="validationErrors.variables"
+          @blur="handleBlur('content')"
+          @insert-variable="
+            insertVariable($event.variableTemplate, {
+              start: $event.start,
+              end: $event.end,
+            })
+          "
+        />
 
-      <div class="message-template-editor__actions">
-        <Button type="primary" @click="submit">Submit template</Button>
-      </div>
-    </section>
+        <div class="message-template-editor__actions">
+          <Button type="primary" @click="submit">Submit template</Button>
+        </div>
+      </section>
+
+      <aside class="message-template-editor__preview">
+        <MessagePreviewCard :title="form.title" :content="previewContent" />
+        <PayloadPreview :payload="submittedPayload" />
+      </aside>
+    </div>
   </main>
 </template>
 
@@ -62,12 +79,25 @@ const alertErrors = computed<ValidationError[]>(() => [
   width: min(100%, 1200px);
   margin: 0 auto;
   padding: 32px 24px;
+  display: grid;
+  gap: 24px;
+}
+
+.message-template-editor__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  align-items: start;
+  gap: 24px;
 }
 
 .message-template-editor__panel {
   display: grid;
   gap: 24px;
-  max-width: 760px;
+}
+
+.message-template-editor__preview {
+  display: grid;
+  gap: 24px;
 }
 
 .message-template-editor__actions {
@@ -78,6 +108,10 @@ const alertErrors = computed<ValidationError[]>(() => [
 @media (max-width: 640px) {
   .message-template-editor {
     padding: 24px 16px;
+  }
+
+  .message-template-editor__layout {
+    grid-template-columns: 1fr;
   }
 
   .message-template-editor__actions {
