@@ -36,8 +36,6 @@ Readable code is generally more valuable than reducing a few lines of code.
 
 Choose implementations that another engineer can quickly understand.
 
----
-
 ## Maintainability
 
 Design code with future maintenance in mind.
@@ -46,8 +44,6 @@ Introduce abstractions only when they clearly improve maintainability, reduce du
 
 Avoid unnecessary complexity.
 
----
-
 ## Consistency
 
 Follow existing project conventions whenever possible.
@@ -55,8 +51,6 @@ Follow existing project conventions whenever possible.
 Prefer consistency over personal preference.
 
 If introducing a different implementation style, explain the reasoning.
-
----
 
 ## Product Thinking
 
@@ -71,8 +65,6 @@ When requirements are ambiguous, incomplete, or conflicting:
 
 Do not implement specifications mechanically.
 
----
-
 ## Team-Oriented Design
 
 Engineering decisions should consider not only technical correctness, but also the people maintaining the code.
@@ -84,8 +76,6 @@ Code should be approachable by future contributors, not only its original author
 ---
 
 # Decision Making
-
-There is rarely only one correct solution.
 
 When evaluating multiple implementations, balance:
 
@@ -117,8 +107,6 @@ Preferred stack:
 - Prettier
 - Vitest
 
-Alternative solutions are acceptable when they provide clear engineering value.
-
 ---
 
 # Vue Guidelines
@@ -129,9 +117,42 @@ Prefer:
 - Composition API
 - `<script setup>`
 
-Components should primarily focus on rendering and user interaction.
-
 Extract business logic only when it improves readability, maintainability, or reusability.
+
+---
+
+# Coding Conventions
+
+## Naming
+
+- Components: PascalCase
+- Composables: useXxx
+- Utilities: camelCase
+- Interfaces / Types: PascalCase
+- Variables / Functions: camelCase
+- Use snake_case only inside template variables such as `{{ customer_name }}`.
+
+## Imports
+
+Use `@` as the alias for the `src` directory.
+
+Prefer alias imports over long relative paths.
+
+Use relative imports only for nearby files when they improve readability.
+
+Use `import type` for TypeScript-only imports whenever appropriate.
+
+Group imports in the following order:
+
+1. Vue
+2. Third-party libraries
+3. Project aliases (`@/...`)
+4. Relative imports
+5. Type imports
+
+Separate each group with one blank line.
+
+Avoid introducing barrel exports (`index.ts`) unless they clearly improve module organization.
 
 ---
 
@@ -148,68 +169,58 @@ Typical responsibilities include:
 
 Split components when it improves readability or reuse.
 
-Avoid creating unnecessary component layers.
-
 ---
 
 # Composable Design
 
-Use a composable when one or more of the following applies:
+Use a composable when:
 
-- Logic depends on Vue's reactivity system.
-- Logic is reused across multiple components.
-- Logic requires lifecycle hooks.
-- Logic coordinates multiple reactive states.
+- Logic depends on Vue reactivity.
+- Logic is reused.
+- Lifecycle hooks are required.
+- Multiple reactive states need coordination.
 
 Do not extract a composable solely to reduce component size.
 
-If the logic is a pure TypeScript function without Vue dependencies, place it in `utils/` instead.
-
-Expose simple and focused APIs.
+Use `utils` for pure TypeScript functions.
 
 ---
 
 # Utils Design
 
-Prefer pure TypeScript functions for logic that does not depend on Vue.
-
-Typical examples include:
+Prefer pure TypeScript functions for:
 
 - parser
 - formatter
 - validator
 - helper functions
 
-Pure functions should:
+They should have:
 
-- Have no Vue dependency.
-- Have no lifecycle dependency.
-- Be independently testable.
+- no Vue dependency
+- no lifecycle dependency
+- independent testability
 
 ---
 
 # Folder Structure
 
-Prefer the following structure.
+Prefer:
 
-```text
 src/
-├── components/
-│   ├── layout/
-│   ├── form/
-│   ├── preview/
-│   └── feedback/
-├── composables/
-├── constants/
-├── router/
-├── types/
-├── utils/
-├── views/
-```
+- components/
+  - layout/
+  - form/
+  - preview/
+  - feedback/
+- composables/
+- constants/
+- router/
+- types/
+- utils/
+- views/
 
-Additional folders are acceptable when they clearly improve project organization.
-
-Every folder should have a well-defined responsibility.
+Additional folders are acceptable when they improve organization.
 
 ---
 
@@ -217,24 +228,20 @@ Every folder should have a well-defined responsibility.
 
 Prefer:
 
-- `interface` for object models.
-- `type` for union types.
+- interface for object models
+- type for union types
 
-Naming conventions:
+Utility Types (`Pick`, `Omit`, `Partial`, `Required`, etc.) are valuable tools.
 
-- PascalCase for interfaces and types.
-- camelCase for variables and properties.
-- snake_case only inside template variable syntax.
+Use them when they improve readability or better express intent.
 
-Utility Types (`Pick`, `Omit`, `Partial`, `Required`, etc.) are valuable tools and should be used when they improve readability, reduce duplication, or better express intent.
+When choosing between utility types and explicit type definitions, consider the team's familiarity and long-term maintainability.
 
-When choosing between utility types and explicit type definitions, consider the team's familiarity and the long-term maintainability of the codebase.
-
-Avoid deeply nested utility types or type compositions that obscure intent.
+Avoid deeply nested utility types that obscure intent.
 
 Avoid:
 
-- `any`
+- any
 - unnecessary type assertions
 - overly complex generic compositions
 
@@ -244,37 +251,28 @@ Avoid:
 
 Choose the simplest solution that satisfies the current requirements.
 
-For page-level or feature-local state, prefer:
+Prefer:
 
 - ref
 - reactive
 - computed
 
-Introduce a shared state solution (e.g. Pinia) only when one or more of the following applies:
+Introduce Pinia or another global store only when:
 
-- State is shared across multiple pages.
-- Multiple unrelated components require the same state.
-- State synchronization becomes difficult using props or composables.
-- Global application state (authentication, theme, user preferences, etc.) is required.
+- state is shared across multiple pages
+- multiple unrelated components require shared state
+- synchronization becomes difficult using local state
+- global application state is required
 
-When introducing a global store, explain why local state or composables are no longer sufficient.
+Explain why local state or composables are insufficient before introducing a global store.
 
 ---
 
 # Validation
 
-Validation should be reusable and easy to maintain.
-
 Prefer centralized validation logic.
 
-Inline validation is acceptable only when tightly coupled to UI behavior and unlikely to be reused.
-
-Prefer structured validation results instead of plain strings.
-
-Examples:
-
-- ValidationResult
-- ValidationError[]
+Return structured validation results.
 
 Channel-specific validation should remain extensible.
 
@@ -282,37 +280,21 @@ Channel-specific validation should remain extensible.
 
 # Regular Expressions
 
-Prefer multiple focused regular expressions over one extremely complex expression.
+Prefer multiple focused regular expressions over one complex expression.
 
-Separate responsibilities whenever possible.
+Template parsing should:
 
-Examples:
-
-- Variable extraction
-- Variable normalization
-- Invalid syntax detection
-
-A single regular expression is acceptable when it remains simple and readable.
-
-### Template Variable Parsing
-
-Template parsing should be resilient.
-
-Specifically:
-
-- Correctly parse supported template variables (e.g. `{{ customer_name }}`).
-- Normalize valid variable syntax into a consistent format.
-- Detect invalid syntax separately from unknown variables.
-- Preserve unknown or invalid variables in the preview instead of breaking rendering.
-- Ensure malformed template syntax cannot break the live preview experience.
+- correctly parse supported variables (`{{ customer_name }}`)
+- normalize valid syntax
+- detect invalid syntax separately from unknown variables
+- preserve unknown or invalid variables in preview
+- ensure malformed syntax never breaks live preview
 
 ---
 
 # UI Guidelines
 
-Use Ant Design Vue components whenever appropriate.
-
-Responsive design should always be considered.
+Use Ant Design Vue where appropriate.
 
 Desktop:
 
@@ -325,26 +307,22 @@ Mobile:
 Header:
 
 - Sticky
-- Display page-level information only.
+- Page-level information only
 
-Primary actions should be placed close to the area they affect.
-
-For example, a form submission button should remain inside the form rather than inside the page header.
+Primary actions should be placed near the area they affect.
 
 ---
 
 # Testing
 
-Prioritize testing business logic over UI implementation.
+Prioritize business logic.
 
-Typical candidates include:
+Focus on:
 
 - Validation
 - Parser
 - Formatter
 - Utility functions
-
-UI testing is optional unless interaction logic becomes sufficiently complex.
 
 ---
 
@@ -352,17 +330,13 @@ UI testing is optional unless interaction logic becomes sufficiently complex.
 
 Use Conventional Commits.
 
-Each commit should represent a single logical change.
-
-Avoid mixing unrelated changes into one commit.
+One logical change per commit.
 
 ---
 
 # Documentation
 
-Documentation is part of the deliverable.
-
-The README should explain:
+README should explain:
 
 - Architecture
 - Technical decisions
@@ -372,13 +346,11 @@ The README should explain:
 - AI collaboration
 - Future improvements
 
-Focus on explaining **why** a solution was chosen, not only **how** it was implemented.
+Explain why decisions were made.
 
 ---
 
 # Engineering Workflow
-
-Follow this workflow whenever possible.
 
 1. Requirement Analysis
 2. Solution Design
@@ -392,71 +364,58 @@ Implement one logical task at a time.
 
 # Implementation Strategy
 
-Prefer an iterative workflow instead of implementing everything at once.
-
-For medium or large tasks:
-
 1. Understand requirements.
 2. Identify ambiguities.
 3. Propose an implementation plan.
-4. Confirm the approach when necessary.
-5. Implement one logical task at a time.
-6. Review the implementation.
-7. Update documentation if necessary.
+4. Confirm when necessary.
+5. Implement one logical task.
+6. Review.
+7. Update documentation if needed.
 
 ---
 
 # Architecture Decision Record (ADR)
 
-When proposing significant architectural or implementation changes:
+For significant architectural changes:
 
 1. Describe the current situation.
-2. Explain the problem being solved.
+2. Explain the problem.
 3. Present the proposed solution.
-4. Compare alternative approaches when appropriate.
-5. Explain the trade-offs.
-6. Explain why the chosen solution best fits the current project scope.
+4. Compare alternatives.
+5. Explain trade-offs.
+6. Explain why the chosen solution fits the current scope.
 
 ---
 
 # Communication
 
-For significant architectural or structural changes:
+For significant architectural changes:
 
-- Explain the motivation before implementation.
+- Explain motivation.
 - Explain trade-offs.
 - Identify affected modules.
-- Request confirmation before making architecture-level changes.
+- Request confirmation before broad changes.
 
 When requirements are unclear:
 
 - Ask clarifying questions.
-- If assumptions are necessary, document them explicitly.
+- Document assumptions.
 
 ---
 
 # Scope Control
 
-Only implement the requested task.
+Implement only the requested task.
 
-Avoid modifying unrelated modules unless:
+Do not modify unrelated modules unless required.
 
-- It fixes an existing bug.
-- It is required to complete the requested task.
-- It significantly improves maintainability without increasing unnecessary complexity.
-
-If additional improvements are identified:
-
-- Recommend them separately.
-- Do not implement them automatically.
+Recommend additional improvements separately.
 
 ---
 
 # Refactoring Principles
 
-Refactoring should have a clear purpose.
-
-Acceptable reasons include:
+Refactor only to:
 
 - Improve readability
 - Improve maintainability
@@ -464,37 +423,20 @@ Acceptable reasons include:
 - Simplify implementation
 - Fix design inconsistencies
 
-Avoid refactoring solely for personal preference.
-
-Do not mix feature implementation with unrelated refactoring.
-
-When refactoring affects multiple modules, explain the expected benefits before implementation.
+Do not mix unrelated refactoring with feature work.
 
 ---
 
 # AI Collaboration
 
-AI is an engineering assistant rather than an autonomous developer.
-
-AI should assist with:
-
-- Requirement analysis
-- Architecture discussion
-- Technical decision analysis
-- TypeScript design
-- Code review
-- Edge case analysis
-- Testing suggestions
-- Documentation
+AI is an engineering assistant.
 
 Before writing code:
 
 - Understand requirements.
 - Review project conventions.
 - Identify edge cases.
-- Explain significant design decisions when appropriate.
-
-Do not adopt AI-generated code blindly.
+- Explain significant design decisions.
 
 Engineering judgment always takes precedence over AI suggestions.
 
@@ -502,50 +444,15 @@ Engineering judgment always takes precedence over AI suggestions.
 
 # Final Verification Checklist
 
-Before considering any task complete, verify:
+Verify:
 
-## Requirement
+- Assignment requirements satisfied
+- Architecture appropriate
+- Readability
+- Maintainability
+- Type safety
+- Tests
+- Documentation
+- Scope control
 
-- Does the implementation satisfy the assignment requirements?
-- Have all acceptance criteria been addressed?
-
-## Architecture
-
-- Is the architecture appropriate for the current project scope?
-- Is there unnecessary abstraction or over-engineering?
-
-## Readability
-
-- Is the code easy to understand?
-- Are naming conventions consistent?
-- Is the implementation self-explanatory?
-
-## Maintainability
-
-- Are responsibilities clearly separated?
-- Is duplicate logic minimized appropriately?
-- Can future engineers modify this code easily?
-
-## TypeScript
-
-- Are types explicit where beneficial?
-- Are utility types improving readability?
-- Is `any` avoided unless justified?
-
-## Testing
-
-- Are important business rules covered?
-- Have important edge cases been considered?
-
-## Documentation
-
-- Does the README reflect the implementation?
-- Are significant engineering decisions documented?
-- Are assumptions and trade-offs explained?
-
-## Scope
-
-- Were only the requested changes implemented?
-- Have unrelated changes been avoided?
-
-If improvements outside the current task are identified, recommend them separately instead of implementing them automatically.
+Recommend additional improvements separately instead of implementing them automatically.
