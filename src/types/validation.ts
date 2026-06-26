@@ -1,6 +1,7 @@
 export type ValidationErrorType =
   | 'required'
   | 'invalidSelection'
+  | 'maxLength'
   | 'invalidTemplateSyntax'
   | 'unknownVariable'
   | 'channelConstraint'
