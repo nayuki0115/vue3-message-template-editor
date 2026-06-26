@@ -1,4 +1,4 @@
-import type { Channel, Language } from '../types/template'
+import type { Channel, Language } from '@/types/template'
 
 interface TemplateOption<TValue extends string> {
   label: string

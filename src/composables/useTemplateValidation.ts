@@ -1,14 +1,14 @@
 import {
   findUnknownVariables,
   hasInvalidVariableSyntax,
-} from '../utils/variableParser'
+} from '@/utils/variableParser'
 
-import type { Channel, TemplateForm } from '../types/template'
+import type { Channel, TemplateForm } from '@/types/template'
 import type {
   ValidationError,
   ValidationField,
   ValidationResult,
-} from '../types/validation'
+} from '@/types/validation'
 
 type TemplateValidationRule = (template: TemplateForm) => ValidationError[]
 

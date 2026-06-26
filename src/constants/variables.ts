@@ -1,4 +1,4 @@
-import type { VariableKey } from '../types/variable'
+import type { VariableKey } from '@/types/variable'
 
 interface SupportedVariable {
   key: VariableKey

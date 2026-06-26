@@ -1,6 +1,6 @@
-import { supportedVariables } from '../constants/variables'
+import { supportedVariables } from '@/constants/variables'
 
-import type { VariableKey } from '../types/variable'
+import type { VariableKey } from '@/types/variable'
 
 const variableTokenPattern =
   /\{\{\s*([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*)\s*\}\}/g

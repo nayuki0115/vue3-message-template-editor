@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { useTemplateValidation } from './useTemplateValidation'
 
-import type { TemplateForm } from '../types/template'
+import type { TemplateForm } from '@/types/template'
 
 function createTemplate(overrides: Partial<TemplateForm> = {}): TemplateForm {
   return {

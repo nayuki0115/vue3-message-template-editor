@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { replaceVariables } from '../utils/variableParser'
+import { replaceVariables } from '@/utils/variableParser'
 
 import type { Ref } from 'vue'
 
