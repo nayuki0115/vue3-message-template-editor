@@ -1,17 +1,30 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Button } from 'ant-design-vue'
 
+import ValidationAlert from '@/components/feedback/ValidationAlert.vue'
 import MessageContentEditor from '@/components/form/MessageContentEditor.vue'
 import TemplateBasicForm from '@/components/form/TemplateBasicForm.vue'
 import { useTemplateForm } from '@/composables/useTemplateForm'
 
+import type { ValidationError } from '@/types/validation'
+
 const { form, validationErrors, handleBlur, insertVariable, submit } =
   useTemplateForm()
+
+const alertErrors = computed<ValidationError[]>(() => [
+  ...(validationErrors.templateName ?? []),
+  ...(validationErrors.channel ?? []),
+  ...(validationErrors.content ?? []),
+  ...(validationErrors.variables ?? []),
+])
 </script>
 
 <template>
   <main class="message-template-editor">
     <section class="message-template-editor__panel">
+      <ValidationAlert :errors="alertErrors" />
+
       <TemplateBasicForm
         v-model:template-name="form.templateName"
         v-model:channel="form.channel"
