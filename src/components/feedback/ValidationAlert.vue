@@ -41,6 +41,15 @@ const alertKey = computed(() =>
 </template>
 
 <style scoped>
+.validation-alert {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+  width: min(420px, calc(100vw - 32px));
+  box-shadow: 0 12px 32px rgb(17 24 39 / 14%);
+}
+
 .validation-alert__list {
   margin: 0;
   padding-left: 18px;
@@ -48,5 +57,12 @@ const alertKey = computed(() =>
 
 .validation-alert__list li + li {
   margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .validation-alert {
+    top: 16px;
+    right: 16px;
+  }
 }
 </style>

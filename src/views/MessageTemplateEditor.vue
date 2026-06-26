@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import { Button } from 'ant-design-vue'
 
 import ValidationAlert from '@/components/feedback/ValidationAlert.vue'
 import MessageContentEditor from '@/components/form/MessageContentEditor.vue'
 import TemplateBasicForm from '@/components/form/TemplateBasicForm.vue'
-import { useTemplateForm } from '@/composables/useTemplateForm'
-import { useVariablePreview } from '@/composables/useVariablePreview'
 import MessagePreviewCard from '@/components/preview/MessagePreviewCard.vue'
 import PayloadPreview from '@/components/preview/PayloadPreview.vue'
+import { useTemplateForm } from '@/composables/useTemplateForm'
+import { useVariablePreview } from '@/composables/useVariablePreview'
 
 import type { ValidationError } from '@/types/validation'
 
@@ -21,6 +21,8 @@ const {
   submit,
 } = useTemplateForm()
 const { previewContent } = useVariablePreview(toRef(form, 'content'))
+const hasSubmitted = ref(false)
+const submitAttemptId = ref(0)
 
 const alertErrors = computed<ValidationError[]>(() => [
   ...(validationErrors.templateName ?? []),
@@ -28,11 +30,21 @@ const alertErrors = computed<ValidationError[]>(() => [
   ...(validationErrors.content ?? []),
   ...(validationErrors.variables ?? []),
 ])
+
+function handleSubmit(): void {
+  hasSubmitted.value = true
+  submitAttemptId.value += 1
+  submit()
+}
 </script>
 
 <template>
   <main class="message-template-editor">
-    <ValidationAlert :errors="alertErrors" />
+    <ValidationAlert
+      v-if="hasSubmitted"
+      :key="submitAttemptId"
+      :errors="alertErrors"
+    />
 
     <div class="message-template-editor__layout">
       <section class="message-template-editor__panel">
@@ -62,7 +74,7 @@ const alertErrors = computed<ValidationError[]>(() => [
         />
 
         <div class="message-template-editor__actions">
-          <Button type="primary" @click="submit">Submit template</Button>
+          <Button type="primary" @click="handleSubmit">Submit template</Button>
         </div>
       </section>
 
