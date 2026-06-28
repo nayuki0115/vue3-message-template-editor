@@ -37,9 +37,24 @@ describe('useTemplateValidation', () => {
     )
   })
 
+  it('treats title as optional', () => {
+    const { validateTemplate } = useTemplateValidation()
+
+    const result = validateTemplate(createTemplate({ title: '' }))
+
+    expect(result.isValid).toBe(true)
+    expect(result.errors).toEqual([])
+  })
+
   it('validates the 500 character content limit', () => {
     const { validateField } = useTemplateValidation()
 
+    const validResult = validateField(
+      'content',
+      createTemplate({
+        content: 'a'.repeat(500),
+      }),
+    )
     const result = validateField(
       'content',
       createTemplate({
@@ -47,6 +62,7 @@ describe('useTemplateValidation', () => {
       }),
     )
 
+    expect(validResult.isValid).toBe(true)
     expect(result.isValid).toBe(false)
     expect(result.errors).toContainEqual(
       expect.objectContaining({
@@ -56,30 +72,46 @@ describe('useTemplateValidation', () => {
     )
   })
 
-  it('reports unknown variables separately from syntax errors', () => {
+  it('reports unknown variables with the original token', () => {
     const { validateField } = useTemplateValidation()
 
-    const unknownResult = validateField(
+    const result = validateField(
       'variables',
       createTemplate({
         content: 'Hi {{ unknown_name }}',
       }),
     )
-    const invalidSyntaxResult = validateField(
+
+    expect(result.errors).toContainEqual(
+      expect.objectContaining({
+        field: 'variables',
+        type: 'unknownVariable',
+        message: 'Unknown variable: {{ unknown_name }}.',
+      }),
+    )
+    expect(result.errors).not.toContainEqual(
+      expect.objectContaining({ type: 'invalidTemplateSyntax' }),
+    )
+  })
+
+  it('reports invalid variable syntax separately from unknown variables', () => {
+    const { validateField } = useTemplateValidation()
+
+    const result = validateField(
       'variables',
       createTemplate({
         content: 'Hi {{ customer-name }}',
       }),
     )
 
-    expect(unknownResult.errors).toContainEqual(
+    expect(result.errors).toContainEqual(
+      expect.objectContaining({
+        field: 'variables',
+        type: 'invalidTemplateSyntax',
+      }),
+    )
+    expect(result.errors).not.toContainEqual(
       expect.objectContaining({ type: 'unknownVariable' }),
-    )
-    expect(unknownResult.errors).not.toContainEqual(
-      expect.objectContaining({ type: 'invalidTemplateSyntax' }),
-    )
-    expect(invalidSyntaxResult.errors).toContainEqual(
-      expect.objectContaining({ type: 'invalidTemplateSyntax' }),
     )
   })
 
