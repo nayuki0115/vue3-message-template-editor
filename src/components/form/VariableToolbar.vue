@@ -31,5 +31,20 @@ defineEmits<{
 <style scoped>
 .variable-toolbar {
   width: 100%;
+  min-width: 0;
+}
+
+.variable-toolbar :deep(.ant-space-item) {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.variable-toolbar :deep(.ant-btn) {
+  max-width: 100%;
+  height: auto;
+  min-height: 24px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
 }
 </style>

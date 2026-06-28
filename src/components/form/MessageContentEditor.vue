@@ -119,11 +119,13 @@ async function handleInsertVariable(variableTemplate: string): Promise<void> {
 .message-content-editor {
   display: grid;
   gap: 12px;
+  min-width: 0;
 }
 
 .message-content-editor__header {
   display: grid;
   gap: 8px;
+  min-width: 0;
 }
 
 .message-content-editor__title {
@@ -132,5 +134,14 @@ async function handleInsertVariable(variableTemplate: string): Promise<void> {
   font-size: 18px;
   font-weight: 600;
   line-height: 1.4;
+}
+
+.message-content-editor :deep(.ant-form-item-control-input-content) {
+  min-width: 0;
+}
+
+.message-content-editor :deep(textarea.ant-input) {
+  resize: vertical;
+  overflow-wrap: anywhere;
 }
 </style>

@@ -97,6 +97,7 @@ function handleSubmit(): void {
   padding: 32px 24px;
   display: grid;
   gap: 24px;
+  min-width: 0;
 }
 
 .message-template-editor__layout {
@@ -104,16 +105,19 @@ function handleSubmit(): void {
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
   align-items: start;
   gap: 24px;
+  min-width: 0;
 }
 
 .message-template-editor__panel {
   display: grid;
   gap: 24px;
+  min-width: 0;
 }
 
 .message-template-editor__preview {
   display: grid;
   gap: 24px;
+  min-width: 0;
 }
 
 .message-template-editor__actions {
@@ -121,7 +125,7 @@ function handleSubmit(): void {
   justify-content: flex-end;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .message-template-editor {
     padding: 24px 16px;
   }

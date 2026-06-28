@@ -119,12 +119,14 @@ function updateLanguage(value: unknown): void {
 <style scoped>
 .template-basic-form {
   width: 100%;
+  min-width: 0;
 }
 
 .template-basic-form__row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
+  min-width: 0;
 }
 
 @media (max-width: 640px) {

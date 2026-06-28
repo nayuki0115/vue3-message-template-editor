@@ -33,9 +33,11 @@ const formattedPayload = computed(() => {
 <style scoped>
 .payload-preview {
   width: 100%;
+  min-width: 0;
 }
 
 .payload-preview__json {
+  max-width: 100%;
   max-height: 320px;
   margin: 0;
   padding: 16px;
@@ -46,6 +48,7 @@ const formattedPayload = computed(() => {
   color: #f9fafb;
   font-size: 13px;
   line-height: 1.6;
-  white-space: pre;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 </style>

@@ -37,12 +37,14 @@ const props = withDefaults(defineProps<Props>(), {
 <style scoped>
 .message-preview-card {
   width: 100%;
+  min-width: 0;
 }
 
 .message-preview-card__message {
   display: grid;
   gap: 12px;
   min-height: 160px;
+  min-width: 0;
   padding: 16px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -51,6 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 .message-preview-card__title {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .message-preview-card__content {
