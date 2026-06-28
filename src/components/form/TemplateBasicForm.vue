@@ -122,6 +122,14 @@ function updateLanguage(value: unknown): void {
   min-width: 0;
 }
 
+.template-basic-form :deep(.ant-form-item) {
+  margin-bottom: 14px;
+}
+
+.template-basic-form :deep(.ant-form-item:last-child) {
+  margin-bottom: 0;
+}
+
 .template-basic-form__row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

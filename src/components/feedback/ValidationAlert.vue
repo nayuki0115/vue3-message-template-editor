@@ -47,7 +47,8 @@ const alertKey = computed(() =>
   right: 24px;
   z-index: 20;
   width: min(420px, calc(100vw - 32px));
-  box-shadow: 0 12px 32px rgb(17 24 39 / 14%);
+  border-color: #f0c7d4;
+  box-shadow: 0 12px 32px rgb(128 82 96 / 16%);
 }
 
 .validation-alert__list {

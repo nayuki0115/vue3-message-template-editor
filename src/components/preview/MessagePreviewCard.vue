@@ -46,9 +46,9 @@ const props = withDefaults(defineProps<Props>(), {
   min-height: 160px;
   min-width: 0;
   padding: 16px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #d9e6df;
   border-radius: 8px;
-  background: #f9fafb;
+  background: #fbfaf7;
 }
 
 .message-preview-card__title {
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<Props>(), {
 }
 
 .message-preview-card__content {
-  color: #1f2937;
+  color: #4b5563;
   line-height: 1.7;
   white-space: pre-wrap;
   overflow-wrap: anywhere;

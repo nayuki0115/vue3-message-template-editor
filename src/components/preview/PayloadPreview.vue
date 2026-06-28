@@ -42,10 +42,10 @@ const formattedPayload = computed(() => {
   margin: 0;
   padding: 16px;
   overflow: auto;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #cfe5df;
   border-radius: 8px;
-  background: #111827;
-  color: #f9fafb;
+  background: #34424a;
+  color: #f8faf8;
   font-size: 13px;
   line-height: 1.6;
   white-space: pre-wrap;

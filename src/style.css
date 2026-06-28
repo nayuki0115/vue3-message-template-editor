@@ -6,8 +6,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  color: #1f2937;
-  background: #f7f8fa;
+  color: #4b5563;
+  background: #f6fbfa;
   font-family:
     Inter,
     ui-sans-serif,
@@ -20,6 +20,60 @@ body {
 
 #app {
   min-height: 100vh;
+}
+
+.ant-card {
+  border-color: #d9e6df;
+  box-shadow: 0 14px 36px rgb(80 104 112 / 10%);
+}
+
+.ant-card .ant-card-head {
+  border-bottom-color: #e9eee9;
+}
+
+.ant-card .ant-card-head-title {
+  color: #374151;
+  font-weight: 600;
+}
+
+.ant-form-item-label > label {
+  color: #52616b;
+  font-weight: 500;
+}
+
+.ant-input,
+.ant-select-selector {
+  background-color: rgb(255 255 255 / 92%) !important;
+}
+
+.ant-select .ant-select-selection-item {
+  color: #374151;
+}
+
+.ant-select .ant-select-selection-placeholder {
+  color: #6b7280;
+}
+
+.ant-select-dropdown .ant-select-item-option {
+  color: #374151;
+}
+
+.ant-select-dropdown
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: #e6f3f1;
+  color: #263f3c;
+}
+
+.ant-select-dropdown
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: #2f766f;
+  color: #ffffff;
+}
+
+.ant-select-dropdown
+  .ant-select-item-option-selected
+  .ant-select-item-option-state {
+  color: #ffffff;
 }
 
 .home-view {

@@ -110,8 +110,13 @@ function handleSubmit(): void {
 
 .message-template-editor__panel {
   display: grid;
-  gap: 24px;
+  gap: 18px;
   min-width: 0;
+  padding: 24px;
+  border: 1px solid #d9e6df;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 36px rgb(80 104 112 / 10%);
 }
 
 .message-template-editor__preview {
@@ -125,6 +130,19 @@ function handleSubmit(): void {
   justify-content: flex-end;
 }
 
+.message-template-editor__actions :deep(.ant-btn-primary) {
+  background: #2f766f;
+  border-color: #2f766f;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.message-template-editor__actions :deep(.ant-btn-primary:hover),
+.message-template-editor__actions :deep(.ant-btn-primary:focus-visible) {
+  background: #245f5a;
+  border-color: #245f5a;
+}
+
 @media (max-width: 768px) {
   .message-template-editor {
     padding: 24px 16px;
@@ -132,6 +150,10 @@ function handleSubmit(): void {
 
   .message-template-editor__layout {
     grid-template-columns: 1fr;
+  }
+
+  .message-template-editor__panel {
+    padding: 20px;
   }
 
   .message-template-editor__actions {

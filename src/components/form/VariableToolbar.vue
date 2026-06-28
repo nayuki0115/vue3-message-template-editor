@@ -43,8 +43,18 @@ defineEmits<{
   max-width: 100%;
   height: auto;
   min-height: 24px;
+  border-color: #c7e5df;
+  background: #eff9f7;
+  color: #40756f;
   white-space: normal;
   overflow-wrap: anywhere;
   text-align: left;
+}
+
+.variable-toolbar :deep(.ant-btn:hover),
+.variable-toolbar :deep(.ant-btn:focus-visible) {
+  border-color: #e7b7c8;
+  background: #fff0f5;
+  color: #9f4f6d;
 }
 </style>

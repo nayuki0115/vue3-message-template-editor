@@ -101,7 +101,7 @@ async function handleInsertVariable(variableTemplate: string): Promise<void> {
         <Textarea
           :value="content"
           :maxlength="500"
-          :rows="10"
+          :rows="6"
           show-count
           placeholder="Hi {{ customer_name }}, your order {{ order_id }} is ready."
           @update:value="$emit('update:content', $event)"
@@ -118,7 +118,7 @@ async function handleInsertVariable(variableTemplate: string): Promise<void> {
 <style scoped>
 .message-content-editor {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
 }
 
@@ -130,7 +130,7 @@ async function handleInsertVariable(variableTemplate: string): Promise<void> {
 
 .message-content-editor__title {
   margin: 0;
-  color: #111827;
+  color: #374151;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.4;
@@ -140,8 +140,18 @@ async function handleInsertVariable(variableTemplate: string): Promise<void> {
   min-width: 0;
 }
 
+.message-content-editor :deep(.ant-form-item) {
+  margin-bottom: 0;
+}
+
 .message-content-editor :deep(textarea.ant-input) {
   resize: vertical;
+  border-color: #d9e6df;
+  background: #ffffff;
   overflow-wrap: anywhere;
+}
+
+.message-content-editor :deep(.ant-input-data-count) {
+  color: #8a949e;
 }
 </style>

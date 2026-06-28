@@ -14,9 +14,9 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 1px solid #e5e7eb;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #d9e6df;
+  background: rgb(255 255 255 / 86%);
+  backdrop-filter: blur(12px);
 }
 
 .app-header__content {
@@ -28,7 +28,7 @@
 
 .app-header__title {
   margin: 0;
-  color: #111827;
+  color: #374151;
   font-size: 24px;
   font-weight: 600;
   line-height: 1.25;
@@ -37,7 +37,7 @@
 
 .app-header__description {
   margin: 6px 0 0;
-  color: #6b7280;
+  color: #7b8794;
   font-size: 14px;
   line-height: 1.5;
   overflow-wrap: anywhere;
