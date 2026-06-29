@@ -5,7 +5,8 @@
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
 ![Ant Design Vue](https://img.shields.io/badge/Ant%20Design%20Vue-4-1677ff)
 ![Vitest](https://img.shields.io/badge/Vitest-tested-6e9f18?logo=vitest&logoColor=white)
-![pnpm](https://img.shields.io/badge/pnpm-required-f69220?logo=pnpm&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-24-5fa04e?logo=node.js&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-10.x-f69220?logo=pnpm&logoColor=white)
 
 這是一個 Senior Frontend Engineer 面試作業專案。
 
@@ -56,8 +57,8 @@
 
 ## 技術需求
 
-- Node.js 版本需能支援目前專案使用的 Vite 與 TypeScript 工具鏈。
-- 使用 pnpm 作為套件管理工具。
+- Node.js 24
+- pnpm 10.x
 - 需要支援原生 ES module 的現代瀏覽器。
 
 ## 安裝和運行說明
