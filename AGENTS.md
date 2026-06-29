@@ -208,6 +208,7 @@ They should have:
 Prefer:
 
 src/
+
 - components/
   - layout/
   - form/

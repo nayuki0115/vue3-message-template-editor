@@ -1,7 +1,8 @@
 import { reactive, ref, watch } from 'vue'
 
-import { useTemplateValidation } from './useTemplateValidation'
 import { extractVariables, normalizeVariables } from '@/utils/variableParser'
+
+import { useTemplateValidation } from './useTemplateValidation'
 
 import type { TemplateForm, TemplatePayload } from '@/types/template'
 import type { ValidationError, ValidationField } from '@/types/validation'
