@@ -1,4 +1,4 @@
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 
 import { useTemplateValidation } from './useTemplateValidation'
 import { extractVariables, normalizeVariables } from '@/utils/variableParser'
@@ -70,12 +70,43 @@ function getVariableInsertRange(
   }
 }
 
+function isSubmittedPayloadCurrent(
+  form: TemplateForm,
+  payload: TemplatePayload,
+): boolean {
+  return (
+    form.templateName.trim() === payload.templateName &&
+    form.channel === payload.channel &&
+    form.language === payload.language &&
+    form.title.trim() === payload.title &&
+    normalizeVariables(form.content) === payload.content
+  )
+}
+
 export function useTemplateForm() {
   const form = reactive<TemplateForm>(createDefaultForm())
   const touchedFields = reactive<TouchedFields>(createDefaultTouchedFields())
   const validationErrors = reactive<ValidationErrors>({})
   const submittedPayload = ref<TemplatePayload | null>(null)
   const { validateField, validateTemplate } = useTemplateValidation()
+
+  watch(
+    () => ({
+      templateName: form.templateName,
+      channel: form.channel,
+      language: form.language,
+      title: form.title,
+      content: form.content,
+    }),
+    () => {
+      if (
+        submittedPayload.value &&
+        !isSubmittedPayloadCurrent(form, submittedPayload.value)
+      ) {
+        submittedPayload.value = null
+      }
+    },
+  )
 
   function validateFields(fields: ValidationField[]): void {
     const errors = fields.flatMap((field) => validateField(field, form).errors)

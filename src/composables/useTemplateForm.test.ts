@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { describe, expect, it } from 'vitest'
 
 import { useTemplateForm } from './useTemplateForm'
@@ -43,7 +44,7 @@ describe('useTemplateForm', () => {
     ])
   })
 
-  it('validates, normalizes, and stores the submitted payload', () => {
+  it('validates, normalizes, and stores the submitted payload', async () => {
     const { form, submittedPayload, submit } = useTemplateForm()
 
     form.templateName = ' Order update '
@@ -63,6 +64,30 @@ describe('useTemplateForm', () => {
       submittedAt: expect.any(String),
     })
     expect(form.content).toBe(payload?.content)
+
+    await nextTick()
+
     expect(submittedPayload.value).toEqual(payload)
+  })
+
+  it('clears submitted payload when the submitted form changes', async () => {
+    const { form, submittedPayload, submit } = useTemplateForm()
+
+    form.templateName = 'Order update'
+    form.channel = 'LINE'
+    form.title = 'Shipping notice'
+    form.content = 'Hi {{ customer_name }}, your order is ready.'
+
+    const payload = submit()
+
+    await nextTick()
+
+    expect(submittedPayload.value).toEqual(payload)
+
+    form.title = ''
+
+    await nextTick()
+
+    expect(submittedPayload.value).toBeNull()
   })
 })
