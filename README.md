@@ -179,7 +179,7 @@ flowchart TD
 
 目前範圍內使用 Vue 本地狀態已足夠，因為表單狀態只存在於單一頁面，也沒有跨路由同步需求。若引入全域 store，會增加額外維護成本，對此作業的核心目標幫助有限。若未來加入跨頁草稿、Auto Save、多人協作狀態或 template list 與 editor 共享資料，會重新評估是否導入 Pinia。
 
-`variableParser.ts` 保持純函式，讓 parser 不依賴 Vue lifecycle 或 UI 狀態，可以獨立測試，也能被 validation、preview 與 payload 流程共用。若未來變數規則需要由 API 動態載入、支援多租戶設定，或解析流程需要非同步資料，會考慮改為 service 或 composable 包裝純 parser。
+`variableParser.ts` 保持純函式，不依賴 Vue 狀態，因此可以獨立測試，也能在 validation、preview 與 payload 建立流程中共用。若未來變數來源改由 API 提供，只需調整資料來源，不需要修改 parser 本身。
 
 ## Validation
 
